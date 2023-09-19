@@ -1,18 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class PipeSpawner : MonoBehaviour
+namespace Environment
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PipeSpawner : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private GameObject pipePrefab;
+        [SerializeField] private float timeBetweenSpawns = 2f;
+        private ObjectPool<PipeMovement> _pipePool;
 
-    // Update is called once per frame
-    void Update()
-    {
+        private float _currentTime;
+        private bool _isActive;
+
+        private void Awake()
+        {
+            _pipePool = new ObjectPool<PipeMovement>((() => Instantiate(pipePrefab, transform).GetComponent<PipeMovement>()),
+                pipe =>
+                {
+                    pipe.gameObject.SetActive(true);
+                    pipe.GetPoolParent(this);
+                },
+                pipe =>
+                {
+                    pipe.gameObject.SetActive(false);
+                });
         
+            //temp
+            _isActive = true;
+            _currentTime = timeBetweenSpawns;
+        }
+
+        public void Release(PipeMovement pipe)
+        {
+            _pipePool.Release(pipe);
+        }
+
+        private void Update()
+        {
+            if (!_isActive)
+                return;
+
+            _currentTime += Time.deltaTime;
+            if (_currentTime > timeBetweenSpawns)
+            {
+                _pipePool.Get();
+                _currentTime = 0;
+            }
+        }
     }
 }
