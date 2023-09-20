@@ -27,9 +27,9 @@ namespace MyEventBus
         public void Invoke<T>(T signal)
         {
             Type key = typeof(T);
-            if (_signalCallbacks.ContainsKey(key))
+            if (_signalCallbacks.TryGetValue(key, out var signalCallback))
             {
-                foreach (var obj in _signalCallbacks[key])
+                foreach (var obj in signalCallback)
                 {
                     var callback = obj.Callback as Action<T>;
                     callback?.Invoke(signal);

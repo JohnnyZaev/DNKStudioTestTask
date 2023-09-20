@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72eca4fa1eb46c439757aefabc21081, type: 3}
   m_Name: Easy
   m_EditorClassIdentifier: 
-  pipeSpeed: 0
-  timeToSpawn: 0
-  middleDistance: 0
+  pipeSpeed: 1
+  timeToSpawn: 2
+  middleDistance: 0.2

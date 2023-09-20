@@ -1,5 +1,3 @@
-using System;
-using Controllers.Game;
 using MyEventBus;
 using MyEventBus.Signals.ScoreSignals;
 using UnityEngine;
@@ -9,8 +7,7 @@ namespace Environment
 {
     public class PipeMovement : MonoBehaviour
     {
-        [SerializeField] private float speed;
-    
+        private float _speed;
         private bool _isMoving;
         private float _movementDistance;
         private Vector3 _startPosition;
@@ -47,6 +44,11 @@ namespace Environment
             Move();
         }
 
+        public void SetSpeed(float speed)
+        {
+            _speed = speed;
+        }
+
         private void Move()
         {
             if (transform.position.x < -_movementDistance)
@@ -55,7 +57,7 @@ namespace Environment
                     _spawner.Release(this);
                 transform.position = _startPosition;
             }
-            transform.Translate(Vector3.left * (speed * Time.deltaTime));
+            transform.Translate(Vector3.left * (_speed * Time.deltaTime));
         }
 
         public void GetPoolParent(PipeSpawner spawner)

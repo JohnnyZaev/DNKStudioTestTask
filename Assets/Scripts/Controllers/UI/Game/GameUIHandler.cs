@@ -1,7 +1,6 @@
 using Controllers.Game;
 using MyEventBus;
 using MyEventBus.Signals.GameSignals;
-using MyEventBus.Signals.PlayerSignals;
 using MyEventBus.Signals.ScoreSignals;
 using TMPro;
 using UnityEngine;
@@ -33,6 +32,9 @@ namespace Controllers.UI.Game
             _eventBus.Subscribe<GameLoadedSignal>(OnGameLoaded);
             _eventBus.Subscribe<GameStoppedSignal>(OnGameStopped);
             _eventBus.Subscribe<ScoreChangedSignal>(OnScoreChanged);
+            
+            currentScoreText.text = $"Score : 0";
+            bestScoreText.text = $"Score : {PlayerPrefs.GetInt(StringConstants.MaxScore, 0)}";
         }
 
         private void OnScoreChanged(ScoreChangedSignal obj)
