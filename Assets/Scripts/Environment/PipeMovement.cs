@@ -1,4 +1,5 @@
 using MyEventBus;
+using MyEventBus.Signals.GameSignals;
 using MyEventBus.Signals.ScoreSignals;
 using UnityEngine;
 using Zenject;
@@ -18,6 +19,15 @@ namespace Environment
         private void Construct(EventBus eventBus)
         {
             _eventBus = eventBus;
+            
+            _eventBus.Subscribe<RestartGameSignal>(OnGameRestart);
+        }
+
+        private void OnGameRestart(RestartGameSignal obj)
+        {
+            transform.position = _startPosition;
+            if (gameObject.activeInHierarchy)
+                _spawner.Release(this);
         }
 
         private void Awake()

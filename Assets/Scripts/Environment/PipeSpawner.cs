@@ -1,6 +1,7 @@
 using Controllers.Game;
 using Difficulty;
 using MyEventBus;
+using MyEventBus.Signals.GameSignals;
 using MyEventBus.Signals.SettingsSignals;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -56,6 +57,10 @@ namespace Environment
                 pipe =>
                 {
                     pipe.gameObject.SetActive(false);
+                },
+                pipe =>
+                {
+                    Destroy(pipe.gameObject);
                 });
         
             //temp

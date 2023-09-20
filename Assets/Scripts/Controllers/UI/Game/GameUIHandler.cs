@@ -61,6 +61,7 @@ namespace Controllers.UI.Game
             CloseAllWindows();
             _gameController.RestartGame();
             gameStartButton.gameObject.SetActive(true);
+            _eventBus.Invoke(new RestartGameSignal());
         }
 
         private void OnGameStopped(GameStoppedSignal signal)
