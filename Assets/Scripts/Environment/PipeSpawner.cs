@@ -14,16 +14,18 @@ namespace Environment
         private float _currentTime;
         private bool _isActive;
         private EventBus _eventBus;
+        private DiContainer _diContainer;
 
         [Inject]
-        private void Construct(EventBus eventBus)
+        private void Construct(EventBus eventBus, DiContainer diContainer)
         {
             _eventBus = eventBus;
+            _diContainer = diContainer;
         }
 
         private void Awake()
         {
-            _pipePool = new ObjectPool<PipeMovement>((() => Instantiate(pipePrefab, transform).GetComponent<PipeMovement>()),
+            _pipePool = new ObjectPool<PipeMovement>((() => _diContainer.InstantiatePrefab(pipePrefab, transform).GetComponent<PipeMovement>()),
                 pipe =>
                 {
                     pipe.gameObject.SetActive(true);

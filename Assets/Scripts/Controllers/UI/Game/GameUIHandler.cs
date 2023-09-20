@@ -2,8 +2,11 @@ using Controllers.Game;
 using MyEventBus;
 using MyEventBus.Signals.GameSignals;
 using MyEventBus.Signals.PlayerSignals;
+using MyEventBus.Signals.ScoreSignals;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using Zenject;
 
 namespace Controllers.UI.Game
@@ -13,18 +16,29 @@ namespace Controllers.UI.Game
         [SerializeField] private Button gameStartButton;
         [SerializeField] private GameObject gameOverUI;
         [SerializeField] private Button playAgainButton;
+        [SerializeField] private TMP_Text currentScoreText;
+        [SerializeField] private TMP_Text bestScoreText;
         
         private EventBus _eventBus;
         private GameController _gameController;
+        private ScoreController _scoreController;
 
         [Inject]
-        private void Construct(EventBus eventBus, GameController gameController)
+        private void Construct(EventBus eventBus, GameController gameController, ScoreController scoreController)
         {
             _eventBus = eventBus;
             _gameController = gameController;
+            _scoreController = scoreController;
             
             _eventBus.Subscribe<GameLoadedSignal>(OnGameLoaded);
             _eventBus.Subscribe<GameStoppedSignal>(OnGameStopped);
+            _eventBus.Subscribe<ScoreChangedSignal>(OnScoreChanged);
+        }
+
+        private void OnScoreChanged(ScoreChangedSignal obj)
+        {
+            currentScoreText.text = $"Score : {obj.Score}";
+            bestScoreText.text = $"Score : {PlayerPrefs.GetInt(StringConstants.MaxScore, 0)}";
         }
 
         private void OnGameLoaded(GameLoadedSignal signal)

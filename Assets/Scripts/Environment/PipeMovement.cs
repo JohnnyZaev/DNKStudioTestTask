@@ -1,4 +1,9 @@
+using System;
+using Controllers.Game;
+using MyEventBus;
+using MyEventBus.Signals.ScoreSignals;
 using UnityEngine;
+using Zenject;
 
 namespace Environment
 {
@@ -10,6 +15,13 @@ namespace Environment
         private float _movementDistance;
         private Vector3 _startPosition;
         private PipeSpawner _spawner;
+        private EventBus _eventBus;
+        
+        [Inject]
+        private void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
 
         private void Awake()
         {
@@ -49,6 +61,14 @@ namespace Environment
         public void GetPoolParent(PipeSpawner spawner)
         {
             _spawner = spawner;
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                _eventBus.Invoke(new ScoreAddedSignal(1));
+            }
         }
     }
 }

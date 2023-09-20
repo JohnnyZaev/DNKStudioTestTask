@@ -1,10 +1,8 @@
 using MyEventBus;
 using MyEventBus.Signals.GameSignals;
-using MyEventBus.Signals.PlayerSignals;
 using MyEventBus.Signals.ScoreSignals;
 using UnityEngine;
 using Utils;
-using Zenject;
 
 namespace Controllers.Game
 {

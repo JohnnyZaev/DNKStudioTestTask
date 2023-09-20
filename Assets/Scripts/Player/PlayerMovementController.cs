@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput))]
     public class PlayerMovementController : MonoBehaviour
     {
         [SerializeField] private float velocity = 1.5f;
