@@ -35,6 +35,7 @@ namespace Controllers.Game
         private void StopGame()
         {
             _eventBus.Invoke(new GameStoppedSignal());
+            Time.timeScale = 0f;
         }
 
         private void OnPlayerFall(PlayerFallSignal signal)

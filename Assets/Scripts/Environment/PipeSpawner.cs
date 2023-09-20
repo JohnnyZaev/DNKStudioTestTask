@@ -1,5 +1,7 @@
+using MyEventBus;
 using UnityEngine;
 using UnityEngine.Pool;
+using Zenject;
 
 namespace Environment
 {
@@ -11,6 +13,13 @@ namespace Environment
 
         private float _currentTime;
         private bool _isActive;
+        private EventBus _eventBus;
+
+        [Inject]
+        private void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
 
         private void Awake()
         {

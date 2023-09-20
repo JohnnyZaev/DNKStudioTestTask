@@ -1,4 +1,3 @@
-using System;
 using MyEventBus;
 using MyEventBus.Signals.GameSignals;
 using MyEventBus.Signals.PlayerSignals;
@@ -47,7 +46,9 @@ namespace Player
         
         private void OnGameRestart(RestartGameSignal signal)
         {
-            transform.position = _startPosition;
+            var transform1 = transform;
+            transform1.position = _startPosition;
+            transform1.rotation = Quaternion.identity;
         }
 
         private void OnGameStopped(GameStoppedSignal signal)
